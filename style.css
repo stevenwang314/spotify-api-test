@@ -1,0 +1,162 @@
+#app-credentials {
+    background-color: rgba(29, 115, 196, 0.6);
+    width: 75%;
+    margin-bottom: 100px;
+}
+
+#artistInformation {
+    position: relative;
+    width: 50vw;
+    height: 60%;
+    background-color: rgb(34, 180, 180, 0.5);
+    border: 1px solid black;
+
+}
+
+#artistName {
+    font-family: Montserrat, Arial;
+    font-size: 48px;
+    padding: 0;
+    margin: 0;
+}
+
+#artist_popularity {
+    margin-right: 40px;
+
+}
+
+
+#artist_genre ,#project-desc {
+    font-family: Montserrat, Arial;
+    font-size: 24px;
+}
+#artist_img {
+    display: block;
+}
+#artist-id {
+    font-family: Montserrat, Arial;
+    font-size: 28px;
+    padding: 0;
+    margin: 0;
+}
+#search-artistID ,#search {
+    width: 400px;
+}
+/*Background layout*/
+#search-results {
+    position :relative;
+    width: 100%;
+    height: 60vh;
+    background-color: rgba(0,255,255,0.5);
+
+    display: block;
+    overflow:auto;
+}
+#profile-bg {
+    position :relative;
+    width: 100%;
+    height: 60vh;
+    background-color: rgba(34, 69, 208,0.45);
+
+    display: block;
+    overflow:auto;
+}
+#song-analysis {
+    position :relative;
+
+    left: 0%;
+    top: 0%;
+    width: 49%;
+    height: 55vh;
+    background-color: rgba(50,205,50,0.5);
+
+    display: block;
+    overflow:auto;
+}
+#song-analysis-results {
+    position :relative;
+    left: 50%;
+    top: -55vh;
+    width: 50%;
+    height: 55vh;
+    background-color: rgba(35, 217, 105, 0.5);
+
+    display: block;
+    overflow:auto;
+}
+#songAnalysisBackground {
+    background-color: rgba(144,238,144,0.5);
+    position: relative;
+    width: 100%;
+    margin-top: 5vh;
+    height: 65vh;
+}
+
+#search-table {
+    width: 100%;
+}
+.search-song-name, #songAnalysisBackground {
+    font-size: 24px;
+    font-family: DynaPuff,Verdana;
+}
+
+#btn-save, #btn-load ,#button-get-profile, .space-left {
+    margin-left: 25px;
+}
+#btn-recommend, #btn-save, #btn-load {
+    font-size: 16px;
+}
+#authCode {
+    width: 75%;
+}
+/*Common CSS that you should use*/
+.no-lineBreak {
+    display: inline;
+}
+.no-whitespace {
+    white-space: nowrap;
+}
+.no-show-link {
+    text-decoration: none;
+}
+.half {
+    width: 50%
+}
+.ninty {
+    width: 60%
+}
+.blackColor {
+    color: black;
+}
+#artist_followers, .pushLeft {
+    margin-left: 40px;
+
+}
+
+#songAnalysisBackgroundOption{
+    position: relative;
+    background: rgba(150,75,25,0.5);
+    left: 0%
+}
+.general-btn-text, .general-font {
+    font-family: Raleway, Arial;
+    font-size: 24px;
+}
+.general-font-big {
+    font-family: Raleway, Arial;
+    font-size: 36px;
+}
+#input-playlist ,#span-playlist, #slider-playlist, #btn-add-recommend-playlist,#btn-clear-playlist {
+    font-family: Raleway, Arial;
+    font-size: 18px;
+}
+
+#image {
+    position: fixed;
+    opacity: 0.5;
+    z-index: -2;
+}
+
+#bottom-indent {
+    margin-bottom: 50px;
+}
