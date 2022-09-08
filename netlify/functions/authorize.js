@@ -12,7 +12,7 @@ exports.handler = async function (event, context, callback) {
             app-remote-control streaming user-read-email user-read-private user-library-modify user-library-read`
 
         }));
-    return JSON.stringify({
+    return JSON.stringify({s
         statusCode: 200,
         text: "Ok."
     })
