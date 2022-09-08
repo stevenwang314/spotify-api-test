@@ -36,7 +36,7 @@ function serialize(obj) {
 }
 
 async function requestPermission() {
-    fetch("connection/authorize").then(response=>{
+    fetch(".netlify/functions/authorize").then(response=>{
 
     });
 }
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
     if (localStorage.getItem("authCode") != null && keyExpired()) {
         //Perform auto get access token when needed
-        fetch("connection/connect").then(response=>{
+        fetch(".netlify/functions/connect").then(response=>{
 
         });
     }
@@ -108,7 +108,7 @@ function oneSecondUpdate() {
         localStorage.removeItem("spotify_expires_authCode");
         //Automatically get acces token if we have a refresh token.
         if (localStorage.getItem("spotify_refresh") != null && localStorage.getItem("spotify_access_token") == null) {
-            fetch("connection/connect").then(response=>{
+            fetch(".netlify/functions/connect").then(response=>{
 
             });
         }
