@@ -16,7 +16,7 @@ exports.handler = async function (event, context, callback) {
             {
                 client_id: process.env.CLIENT_KEY,
                 response_type: 'code',
-                redirect_uri: REDIRECT_URI,
+                redirect_uri: "https://spotify-api-test.netlify.app",
                 scope: `ugc-image-upload user-modify-playback-state 
                 user-read-playback-state user-read-currently-playing 
                 user-follow-modify user-follow-read user-read-recently-played user-top-read
