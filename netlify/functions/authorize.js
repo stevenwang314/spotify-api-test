@@ -14,7 +14,7 @@ exports.handler = async function (event, context, callback) {
         body: JSON.stringify({ message: "Hello World" }),
         headers: 
         {
-            Location: 'https://accounts.spotify.com/authorize?' + serialize(
+            location: 'https://accounts.spotify.com/authorize?' + serialize(
             {
                 client_id: process.env.CLIENT_KEY,
                 response_type: 'code',
