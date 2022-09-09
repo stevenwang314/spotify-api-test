@@ -26,15 +26,6 @@ const setTime = (time) => {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-function serialize(obj) {
-    var str = [];
-    for (var p in obj)
-        if (obj.hasOwnProperty(p)) {
-            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-        }
-    return str.join("&");
-}
-
 async function requestPermission() {
     fetch(".netlify/functions/authorize").then(response=>{
 
