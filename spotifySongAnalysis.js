@@ -306,7 +306,7 @@ class SpotifySongAnalysis extends React.Component {
             for (let i = 0; i < Math.ceil(this.state.songsFound / 100); i++) {
 
 
-                let getData = await fetch("https://api.spotify.com/v1/playlists/" + json + "/tracks", {
+                await fetch("https://api.spotify.com/v1/playlists/" + json + "/tracks", {
                     method: 'POST',
                     headers: {
                         "Authorization": localStorage.getItem("spotify_token_type") + " " + localStorage.getItem("spotify_access_token"),
@@ -331,6 +331,7 @@ class SpotifySongAnalysis extends React.Component {
 
 
                     });
+                    await sleep(500);
             }
         } else {
             alert(ERROR_LOGINREQUIRED);

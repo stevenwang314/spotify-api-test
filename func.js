@@ -9,6 +9,10 @@ const SUCCESS_ACCESSTOKENGOT2 = "Successfully obtained an access key (Credential
 const ERROR_AUTHCODEEXPIRED = "Authorization Code has expired, please reverify by clicking Request Permission."
 const ERROR_LOGINREQUIRED = "This only works with Credentials access. Click Use Credentials and then Get Access Token to access user account.";
 const SUCCESS_ADDTOPLAYLIST = "Successfully saved the list of songs onto a playlist";
+const KEY_EXPIRED = "spotify_access_token_expire_time";
+const SPOTIFY_REFRESH = "spotify_refresh_token";
+
+const REDIRECT_URI = "https://spotify-api-test.netlify.app/";
 const setTime = (time) => {
     let min = Math.floor(time / 60);
     let sec = Math.floor(time % 60);
@@ -22,42 +26,62 @@ const setTime = (time) => {
     return min + ":" + sec + "." + ms;
 }
 
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 async function requestPermission() {
-    fetch(".netlify/functions/authorize").then(response=>{
-
-    });
+    window.location = '/.netlify/functions/authorize';
 }
+async function getAccessToken() {
+    console.log(localStorage.getItem("authCode"));
+    
+    let getData = await fetch('/.netlify/functions/connect', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            authCode: localStorage.getItem("authCode"),
+            refresh_token: localStorage.getItem("spotify_refresh"),
 
-let REDIRECT_URI = "https://spotify-api-test.netlify.app";
+        })
+    })
+        .then((response) => {
+            response.json().then(c=> {
+                console.log(c);
+                if (c.hasOwnProperty("success")) {
+                    localStorage.setItem("spotify_access_token", c.success["access_token"]);
+                    localStorage.setItem("spotify_token_type", c.success["token_type"]);
+                    localStorage.setItem("spotify_auth_type", c.success["auth_type"]);
+                    localStorage.setItem(KEY_EXPIRED, c.success["expires"]);
+                    if (c.success["refresh_token"] != null) //If we have a refresh token keep it
+                        localStorage.setItem(SPOTIFY_REFRESH, c.success["refresh_token"]);
+                    else //Or else delete it
+                        localStorage.removeItem(SPOTIFY_REFRESH);
+
+                    getOwnUser();
+                }
+            });
+           
+        })
+
+}
 
 //Is called when document is ready.
 $(document).ready(function () {
-    $("#authorize").prop("disabled", !keyExpired());
-
+    $("#redirectUri").prop("value", window.location);
     if (localStorage.getItem("authCode") != null && keyExpired()) {
-        //Perform auto get access token when needed
-        fetch(".netlify/functions/connect").then(response=>{
-
-        });
+        getAccessToken();
     }
 
     let getLoc = window.location.search;
     if (getLoc.indexOf("code=") != -1) {
-        console.log('a');
         let txt = getLoc.slice(getLoc.indexOf("code=") + 5, getLoc.length);
 
         localStorage.setItem("authCode", txt);
-       window.location = REDIRECT_URI;
+        window.location = REDIRECT_URI;
     }
-  
+
+
 });
-const keyExpired = () => {
-    return (localStorage.getItem("spotify_expires_authCode") != null && new Date().getTime() > localStorage.getItem("spotify_expires_authCode")) || localStorage.getItem("spotify_expires_authCode") == null;
-};
+
 function processError(error) {
     if (error.hasOwnProperty("status")) {
         switch (error.status) {
@@ -88,6 +112,13 @@ function processError(error) {
     }
 }
 
+const keyExpired = () => {
+    return (localStorage.getItem(KEY_EXPIRED) != null && new Date().getTime() > localStorage.getItem(KEY_EXPIRED)) || localStorage.getItem(KEY_EXPIRED) == null;
+};
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 setInterval(oneSecondUpdate, 1000);
 
 function oneSecondUpdate() {
@@ -96,15 +127,13 @@ function oneSecondUpdate() {
         localStorage.removeItem("spotify_token_type");
         localStorage.removeItem("spotify_access_token");
       
-        localStorage.removeItem("spotify_expires_authCode");
+        localStorage.removeItem(KEY_EXPIRED );
         //Automatically get acces token if we have a refresh token.
-        if (localStorage.getItem("spotify_refresh") != null && localStorage.getItem("spotify_access_token") == null) {
-            fetch(".netlify/functions/connect").then(response=>{
-
-            });
+        if (localStorage.getItem(SPOTIFY_REFRESH) != null && localStorage.getItem("spotify_access_token") == null) {
+           getAccessToken();
         }
         //Otherwise we remove the authentication code.
-        if (localStorage.getItem("spotify_auth_type") != null && localStorage.getItem("spotify_refresh") == null && localStorage.getItem("spotify_access_token") == null) {
+        if (localStorage.getItem("spotify_auth_type") != null && localStorage.getItem(SPOTIFY_REFRESH) == null && localStorage.getItem("spotify_access_token") == null) {
             localStorage.removeItem("authCode");
         }
         localStorage.removeItem("spotify_auth_type");
@@ -112,7 +141,7 @@ function oneSecondUpdate() {
 
     let extraText = "";
     if (!keyExpired()) {
-        let i = new Date(parseInt(localStorage.getItem("spotify_expires_authCode")));
+        let i = new Date(parseInt(localStorage.getItem(KEY_EXPIRED )));
         extraText = "Session expires at " + (i.getMonth() + 1) + "/" + i.getDate() + "/" + i.getFullYear() + " at " + i.getHours() + ":" + i.getMinutes() + ":" + i.getSeconds();
     } else if (localStorage.getItem("authCode") == null) {
         extraText = "Click to authorize (Requires Spotify account).";

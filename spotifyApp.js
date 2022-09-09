@@ -55,14 +55,14 @@ class SpotifyApp extends React.Component {
         );
     }
 
-    loadQueuedSong(json) {
+    async loadQueuedSong(json) {
         let max = json.tracks.total;
         let market = "US";
         let limit = 50;
       
         for (let i = 0; i < Math.ceil(max / limit); i++) {
             let offset = 50 * i;
-            let getData = fetch(json.tracks.href + "?limit=" + limit + "&market=" + market + "&offset=" + offset, {
+            await fetch(json.tracks.href + "?limit=" + limit + "&market=" + market + "&offset=" + offset, {
                 method: 'GET',
                 headers: {
                     "Authorization": localStorage.getItem("spotify_token_type") + " " + localStorage.getItem("spotify_access_token"),
@@ -87,6 +87,7 @@ class SpotifyApp extends React.Component {
 
 
                 });
+            await sleep(500);
         }
     }
     cleanQueuedSong() {
