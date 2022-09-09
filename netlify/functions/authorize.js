@@ -12,7 +12,9 @@ exports.handler = async function (event, context, callback) {
     return {
         statusCode: 200,
         body: JSON.stringify({ message: "Hello World" }),
-        header: JSON.stringify({Location: 'https://accounts.spotify.com/authorize?' + serialize(
+        headers: 
+        {
+            Location: 'https://accounts.spotify.com/authorize?' + serialize(
             {
                 client_id: process.env.CLIENT_KEY,
                 response_type: 'code',
@@ -23,6 +25,7 @@ exports.handler = async function (event, context, callback) {
                 playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private
                 app-remote-control streaming user-read-email user-read-private user-library-modify user-library-read`
     
-            })})
+            }
+        }
     };
 }
