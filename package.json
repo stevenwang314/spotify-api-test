@@ -1,0 +1,19 @@
+{
+    "name": "Spotify API Test",
+    "author": "Steven Wang",
+    "description": "testing spotify api",
+    "keywords": [
+        "server",
+        "network"
+    ],
+    "version": "0.0.0",
+    "dependencies": {
+        "express": "4.18.1",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "body-parser": "^1.19.0",
+        "axios": "^0.27.2"
+    },
+
+    "main": "netlify\\functions\\backend.js"
+}

@@ -23,7 +23,7 @@ server.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });*/
 
-router.get('/authorize', function (req, res) {
+app.get('/authorize', function (req, res) {
     let str = 'https://accounts.spotify.com/authorize?' + serialize(
         {
             client_id: process.env.CLIENT_ID,
@@ -40,7 +40,7 @@ router.get('/authorize', function (req, res) {
     res.redirect(str);
 });
 
-router.post('/connect', async function (req, res) {
+app.post('/connect', async function (req, res) {
     //Only get key is the refresh token has expired.
     if (req.body["refresh_token"] === null) {
         //Form needs to be urlencoded since our content-type is set to urlencoded
@@ -127,5 +127,4 @@ function serialize(obj) {
 }
 //==================================================
 
-module.exports = app;
 module.exports.handler = serverless(app);
