@@ -25,7 +25,7 @@ exports.handler = async function (event, context, callback) {
                 playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private
                 app-remote-control streaming user-read-email user-read-private user-library-modify user-library-read`
     
-            }
+            })
         }
     };
 }
