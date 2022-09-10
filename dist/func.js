@@ -12,6 +12,10 @@ const SUCCESS_ADDTOPLAYLIST = "Successfully saved the list of songs onto a playl
 const KEY_EXPIRED = "spotify_access_token_expire_time";
 const SPOTIFY_REFRESH = "spotify_refresh_token";
 
+let REDIRECT_URI = window.location.origin + window.location.pathname;
+console.log(REDIRECT_URI);
+let SERVER_URL = "https://spotify-api-test.netlify.app/"
+
 const setTime = (time) => {
     let min = Math.floor(time / 60);
     let sec = Math.floor(time % 60);
@@ -26,12 +30,11 @@ const setTime = (time) => {
 }
 
 async function requestPermission() {
-    window.location = 'https://spotify-api-test.netlify.app/.netlify/functions/api/authorize';
+    window.location = SERVER_URL + '.netlify/functions/api/authorize';
 }
 async function getAccessToken() {
-    console.log(localStorage.getItem("authCode"));
-    
-    let getData = await fetch('https://spotify-api-test.netlify.app/.netlify/functions/api/connect', {
+
+    let getData = await fetch(SERVER_URL+ '.netlify/functions/api/connect', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

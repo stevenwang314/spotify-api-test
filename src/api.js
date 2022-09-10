@@ -1,18 +1,32 @@
+//Load up the secret environment file located in our local secret.env to load up our keys. This will not be used when its uploaded on the netlify.
+require('dotenv').config({ path: "secret.env" });
+
+//Load up our libraries and assign them to functions
 const express = require('express');
 const serverless = require('serverless-http');
+const cors = require('cors');
+const axios = require("axios");
+let bodyParser = require('body-parser');
 
+//Setup our router
 const app = express();
 const router = express.Router();
+
+//Configure settings to our express to be able to use CORS settings and body parsing for POST request.
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/.netlify/functions/api', router);
+//Axios uses your current url by default. However since we need to talk to another url for API request, we need to change it
+axios.defaults.baseURL = 'https://accounts.spotify.com';
 
 router.get('/', (req,res) => {
     res.json({
         'hello': 'you have reached the easter egg of all things! You get.... some bragging rights that you got to over here!'
     })
 })
-
+//create our own authorizte API call to redirect to spotify authorization.
 router.get('/authorize', (req, res) => {
-
-    console.log(process.env);
 
     let str = 'https://accounts.spotify.com/authorize?' + serialize(
         {
@@ -29,8 +43,9 @@ router.get('/authorize', (req, res) => {
 
     res.redirect(str);
 });
-
-router.post('/connect', async function (req, res) {
+//create our own connect API call to get access token.
+router.post('/connect', async (req, res)=> {
+  
     //Only get key is the refresh token has expired.
     if (req.body["refresh_token"] === null) {
         //Form needs to be urlencoded since our content-type is set to urlencoded
@@ -105,8 +120,6 @@ router.post('/connect', async function (req, res) {
     }
 
 });
-//Put all of our router api calls into this function for our netlify call
-app.use('/.netlify/functions/api', router);
 
 //==================================================
 //Utility
