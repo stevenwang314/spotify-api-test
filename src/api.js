@@ -16,9 +16,9 @@ router.get('/authorize', (req, res) => {
 
     let str = 'https://accounts.spotify.com/authorize?' + serialize(
         {
-            client_id:CLIENT_ID,
+            client_id: process.env.CLIENT_ID,
             response_type: 'code',
-            redirect_uri: REDIRECT_URI,
+            redirect_uri: process.env.REDIRECT_URI,
             scope: `ugc-image-upload user-modify-playback-state 
         user-read-playback-state user-read-currently-playing 
         user-follow-modify user-follow-read user-read-recently-played user-top-read
