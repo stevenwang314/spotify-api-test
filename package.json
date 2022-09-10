@@ -1,20 +1,18 @@
 {
-    "name": "Spotify API Test",
-    "author": "Steven Wang",
-    "description": "testing spotify api",
-    "keywords": [
-        "server",
-        "network"
-    ],
-    "version": "0.0.0",
-    "dependencies": {
-        "axios": "^0.27.2",
-        "body-parser": "^1.19.0",
-        "cors": "^2.8.5",
-        "dotenv": "^8.2.0",
-        "express": "4.18.1",
-        "netlify-cli": "^3.39.4",
-        "serverless-http": "3.0.2"
-    },
-    "main": "functions\\backend.js"
+  "name": "spotify-api-test2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start" : "./node_modules/.bin/netlify-lambda serve src",
+    "build" : "./node_modules/.bin/netlify-lambda build src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "netlify-lambda": "^2.0.15",
+    "serverless-http": "^3.0.2"
+  }
 }

@@ -1,34 +1,24 @@
-require('dotenv').config({ path: "secret.env" });
-const cors = require('cors');
-const express = require("express");
-const axios = require("axios");
+const express = require('express');
 const serverless = require('serverless-http');
 
 const app = express();
-//const host = 'localhost';
-//const port = 6969;
-let bodyParser = require('body-parser');
 const router = express.Router();
 
-app.use(cors());
+router.get('/', (req,res) => {
+    res.json({
+        'hello': 'you have reached the easter egg of all things! You get.... some bragging rights that you got to over here!'
+    })
+})
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/.netlify/functions/server', router);  // path must route to lambda (express/server.js)
+router.get('/authorize', (req, res) => {
 
-axios.defaults.baseURL = 'https://accounts.spotify.com';
+    console.log(process.env);
 
-/*const server = http.createServer(app);
-server.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
-});*/
-
-app.get('/authorize', function (req, res) {
     let str = 'https://accounts.spotify.com/authorize?' + serialize(
         {
-            client_id: process.env.CLIENT_ID,
+            client_id:CLIENT_ID,
             response_type: 'code',
-            redirect_uri: process.env.REDIRECT_URI,
+            redirect_uri: REDIRECT_URI,
             scope: `ugc-image-upload user-modify-playback-state 
         user-read-playback-state user-read-currently-playing 
         user-follow-modify user-follow-read user-read-recently-played user-top-read
@@ -40,7 +30,7 @@ app.get('/authorize', function (req, res) {
     res.redirect(str);
 });
 
-app.post('/connect', async function (req, res) {
+router.post('/connect', async function (req, res) {
     //Only get key is the refresh token has expired.
     if (req.body["refresh_token"] === null) {
         //Form needs to be urlencoded since our content-type is set to urlencoded
@@ -115,6 +105,9 @@ app.post('/connect', async function (req, res) {
     }
 
 });
+//Put all of our router api calls into this function for our netlify call
+app.use('/.netlify/functions/api', router);
+
 //==================================================
 //Utility
 function serialize(obj) {
