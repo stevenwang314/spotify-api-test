@@ -27,12 +27,12 @@ const setTime = (time) => {
 }
 
 async function requestPermission() {
-    window.location = 'http://localhost:9000/.netlify/functions/api/authorize';
+    window.location = REDIRECT_URI + '.netlify/functions/api/authorize';
 }
 async function getAccessToken() {
     console.log(localStorage.getItem("authCode"));
     
-    let getData = await fetch('http://localhost:9000/.netlify/functions/api/connect', {
+    let getData = await fetch(REDIRECT_URI + '.netlify/functions/api/connect', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
